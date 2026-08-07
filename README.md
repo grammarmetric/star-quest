@@ -28,28 +28,28 @@ app.js                quest engine, adaptive levelling, score report
 teacher.js            live dashboard
 sync.js               Firebase wrapper — degrades to offline silently
 icons.js              inline SVG picture set (no image files anywhere)
+report.js             the score report — shared by both pages, one wording
 questions.json        >>> ALL THE CONTENT. This is the file you swap. <<<
-firebase-config.js    paste your Firebase keys here
-database.rules.json   Realtime Database security rules
+firebase-config.js    optional Firebase keys (leave as-is to skip Firebase)
+database.rules.json   Realtime Database security rules (only if you use it)
 .nojekyll             stops GitHub Pages hiding files
 ```
 
 ---
 
-## 2. Try it right now (no Firebase needed)
+## 2. Try it right now — nothing to set up
 
-Browsers refuse to read `questions.json` from a `file://` page, so you need a
-local server. Node is already on this machine:
+Open **https://grammarmetric.github.io/star-quest/** and play. There is no
+account to create, no backend to configure, nothing to install. Everything works
+out of the box.
+
+To run it locally instead, browsers refuse to read `questions.json` from a
+`file://` page, so use a server:
 
 ```powershell
 cd C:\Users\User\star-quest
 npx serve
 ```
-
-Open the `http://localhost:3000` address it prints. The quest works completely
-— all four stages, adaptive levelling, the full score report. The only thing
-missing is the live teacher view, which shows an honest "offline mode" chip
-until you finish step 4.
 
 ---
 
@@ -84,20 +84,62 @@ Live in about a minute at
 
 ---
 
-## 4. Live teacher monitoring (Firebase Realtime Database)
+## 4. Getting her results to you
 
-A new standalone Firebase project, separate from `grammarmetric-classroom`.
+Three ways, in order of how much setup they need. **The first needs none, and
+it is the one you will actually use.**
 
-### The scripted way (recommended)
+### A. The report link — zero setup, works from anywhere ✅
 
-Google requires one interactive browser login that nothing can automate. Do
+When she finishes, she taps **Send to my teacher**. That copies a link. She
+pastes it into your lesson chat; you open it and her entire report appears:
+overall score, per-skill breakdown, the level she reached in each, strengths,
+what to practise, and every single question with what she chose and how long she
+took.
+
+The result travels *inside the link*, in the URL fragment. A fragment is never
+sent to any server — not to GitHub, not to anyone. Nothing is uploaded, stored
+or transmitted to a third party. It is about 900 characters, so it pastes fine
+into any chat box.
+
+You can also paste it into the box at the top of `teacher.html` if you would
+rather keep a tab open.
+
+### B. Live view, same computer — zero setup ✅
+
+If she is working on **your** computer (in-person lesson, or you are driving her
+screen), open `teacher.html` in another tab and click **Watch**. You will see
+the question on her screen, the option she taps, timings and her adaptive level,
+updating as she goes. This uses `BroadcastChannel` + `localStorage` — no server
+involved.
+
+It does **not** work across devices. Two tabs on one machine only.
+
+### C. Live view from anywhere — needs Firebase ⚙️
+
+Only worth doing if you want to watch in real time while she is on her own
+device in another house. If you are already on a video call with her, you can
+see her screen there anyway, and option A gives you the structured data
+afterwards — so most of the time this is not worth the setup.
+
+If you do want it: a new standalone Firebase project, separate from
+`grammarmetric-classroom`.
+
+#### The scripted way
+
+Google requires one interactive browser login that nothing can automate — not a
+script, not an API, not an agent. Only the account holder can click Allow. Do
 that, then the script does the other six steps:
 
 ```powershell
-firebase login                       # opens a browser, sign in as admin@grammarmetric.com
+firebase.cmd login                  # opens a browser; sign in, click Allow
 cd C:\Users\User\star-quest
-.\tools\setup-firebase.ps1
+powershell -ExecutionPolicy Bypass -File .\tools\setup-firebase.ps1
 ```
+
+Both the `.cmd` and the `-ExecutionPolicy Bypass` matter on this machine: the
+default policy is `Restricted`, which blocks `firebase.ps1` and any `.ps1`
+script.
 
 It creates the project, creates the Realtime Database, enables Anonymous
 sign-in, registers a web app, writes the real values into `firebase-config.js`,
@@ -148,7 +190,7 @@ Publish. (Strip the `"//"` comment block if the console objects to it.)
 Then add your Pages domain under **Authentication → Settings → Authorized
 domains**: `grammarmetric.github.io`.
 
-### Using it in a lesson
+### Using Firebase in a lesson
 
 1. Open `teacher.html`, click **Make a new code**, click **Watch**.
 2. Send her the student link shown (`index.html?session=XXXXXXXX`). Append

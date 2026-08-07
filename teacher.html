@@ -21,9 +21,26 @@
     <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark"></button>
   </div>
 
+  <!-- paste a finished result -->
+  <section class="t-panel" id="resultPanel" style="margin-bottom:16px">
+    <h2>Her finished report</h2>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start">
+      <textarea id="resultInput" rows="2" placeholder="Paste the link she sent you"
+        style="flex:1;min-width:260px;font-family:ui-monospace,monospace;font-size:.82rem;
+               padding:12px;border-radius:var(--gm-radius-control);border:1px solid var(--border);
+               background:transparent;color:var(--text);resize:vertical"></textarea>
+      <button class="btn btn--primary" id="openResultBtn" type="button">Open report</button>
+    </div>
+    <p style="color:var(--muted);font-size:.85rem;margin-top:12px">
+      When she finishes she taps <strong>Send to my teacher</strong> and pastes the link into
+      your lesson chat. It carries her whole report — every question, what she chose, timings
+      and levels. Nothing is uploaded anywhere: the result travels inside the link itself.
+    </p>
+  </section>
+
   <!-- join -->
   <section class="t-panel" id="joinPanel" style="margin-bottom:16px">
-    <h2>Session</h2>
+    <h2>Watch a session live</h2>
     <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
       <input class="name-input" id="codeInput" type="text" placeholder="8-letter code"
              maxlength="8" autocomplete="off" spellcheck="false"
@@ -83,6 +100,7 @@
 <script defer src="firebase-config.js"></script>
 <script defer src="sync.js"></script>
 <script defer src="icons.js"></script>
+<script defer src="report.js"></script>
 <script defer src="teacher.js"></script>
 </body>
 </html>

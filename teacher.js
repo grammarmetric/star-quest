@@ -48,20 +48,27 @@
 
   function statusChip(kind, detail) {
     var c = $('statusChip');
-    if (kind === 'live') {
+    if (kind === 'firebase') {
       c.className = 'chip chip--live';
-      c.innerHTML = svg('check', '1rem') + ' connected';
+      c.innerHTML = svg('check', '1rem') + ' watching from anywhere';
+    } else if (kind === 'local') {
+      c.className = 'chip chip--live';
+      c.innerHTML = svg('check', '1rem') + ' watching this computer';
+      $('joinHint').innerHTML =
+        'No backend is configured, so live watching works when she is on <strong>this same ' +
+        'computer</strong> (another tab or window). If she is on her own device, skip this ' +
+        'and use her finished report link above — that works from anywhere. ' +
+        'To watch remotely in real time, set up Firebase (see the README).';
     } else if (kind === 'connecting') {
       c.className = 'chip chip--quiet';
       c.textContent = 'connecting…';
     } else {
       c.className = 'chip chip--offline';
-      c.textContent = 'offline mode';
+      c.textContent = 'no live view';
       offlineReason = detail || '';
       $('joinHint').innerHTML =
-        '<strong>Live monitoring is off.</strong> ' + esc(detail || '') +
-        ' Fill in <code>firebase-config.js</code> and enable Anonymous sign-in, ' +
-        'then reload. The quest itself still works and still produces a report.';
+        '<strong>Live watching is unavailable</strong> — this browser blocks local storage. ' +
+        'Her finished report link above still works.';
     }
   }
 
@@ -170,15 +177,83 @@
       }).join('') + '</ul>';
     };
 
+    var review = (rep.answers || []).map(function (a) {
+      return '<div class="review-item">' +
+        '<span class="ri-icon ri-icon--' + (a.correct ? 'yes' : 'no') + '">' +
+          svg(a.correct ? 'check' : 'cross', '.9rem') + '</span>' +
+        '<span class="ri-body">' +
+          '<span class="ri-q">' + esc(a.prompt) + '</span>' +
+          '<span class="ri-a">' + esc(a.domainLabel) + ' · L' + esc(a.level) +
+            ' · she said “' + esc(a.said) + '”' +
+            (a.correct ? '' : ' · answer: “' + esc(a.key) + '”') +
+            ' · ' + clockTime(a.ms) +
+            (a.plays ? ' · ' + a.plays + ' plays' : '') +
+            (a.ketRef ? ' · ' + esc(a.ketRef) : '') +
+          '</span>' +
+        '</span></div>';
+    }).join('');
+
     $('reportBox').innerHTML =
       '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">' +
+        (rep.name ? '<span class="chip chip--quiet">' + esc(rep.name) + '</span>' : '') +
         '<span class="chip">' + rep.percent + '% overall</span>' +
         '<span class="chip chip--quiet">' + rep.correct + ' of ' + rep.asked + '</span>' +
         '<span class="chip chip--quiet">' + clockTime(rep.elapsedMs) + '</span>' +
       '</div>' +
       '<div class="domain-grid">' + doms + '</div>' +
       '<h3 style="font-size:1rem;margin:18px 0 10px">Strengths</h3>' + list(rep.strengths, 'good', 'check') +
-      '<h3 style="font-size:1rem;margin:18px 0 10px">Practise next</h3>' + list(rep.growth, 'work', 'next');
+      '<h3 style="font-size:1rem;margin:18px 0 10px">Practise next</h3>' + list(rep.growth, 'work', 'next') +
+      (review ? '<h3 style="font-size:1rem;margin:22px 0 10px">Every question</h3>' + review : '');
+  }
+
+  /* ---------- opening a finished report from a link ---------- */
+
+  var DATA = null;
+
+  function loadQuestions() {
+    if (DATA) return Promise.resolve(DATA);
+    return fetch('questions.json', { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (j) { DATA = j; return j; });
+  }
+
+  function showHandoffError(msg) {
+    $('reportPanel').style.display = 'block';
+    $('reportBox').innerHTML = '<div class="t-empty">' + esc(msg) + '</div>';
+  }
+
+  function openHandoff(text) {
+    var m = /[#&]r=([A-Za-z0-9\-_]+)/.exec(text || '');
+    var token = m ? m[1] : (/^[A-Za-z0-9\-_]{40,}$/.test((text || '').trim()) ? text.trim() : null);
+    if (!token) { showHandoffError('That does not look like a result link. Paste the whole link she sent.'); return; }
+
+    var packed;
+    try { packed = window.Handoff.unpack(token); }
+    catch (e) { showHandoffError('That link is damaged or incomplete — ask her to send it again.'); return; }
+    if (!packed || !packed.answers) { showHandoffError('Could not read that link.'); return; }
+
+    loadQuestions().then(function (data) {
+      var answers = Report.hydrate(packed.answers, data);
+      var missing = answers.filter(function (a) { return a.missing; }).length;
+      var rep = Report.build({
+        name: packed.name,
+        data: data,
+        answers: answers,
+        elapsedMs: packed.elapsedMs,
+        finishedAt: packed.finishedAt
+      });
+      lastReport = null;              // force a re-render
+      renderReport(rep);
+      $('reportPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (missing) {
+        $('reportBox').insertAdjacentHTML('afterbegin',
+          '<div class="t-empty" style="text-align:left;padding:12px 0">' + missing +
+          ' question(s) in this result are no longer in questions.json, so they show as unknown. ' +
+          'That happens if the content changed after she took the test.</div>');
+      }
+    }).catch(function (err) {
+      showHandoffError('Could not load questions.json to rebuild the report (' + err.message + ').');
+    });
   }
 
   /* ---------- wiring ---------- */
@@ -207,6 +282,18 @@
         else if (p === false) { c.className = 'chip chip--quiet'; c.textContent = 'she closed the page'; }
       });
     });
+  }
+
+  $('openResultBtn').addEventListener('click', function () { openHandoff($('resultInput').value); });
+  $('resultInput').addEventListener('paste', function () {
+    // paste fires before the value lands, so read it on the next tick
+    setTimeout(function () { if ($('resultInput').value.length > 40) openHandoff($('resultInput').value); }, 0);
+  });
+
+  // A result link opened directly lands here with #r=... already set.
+  if (/[#&]r=/.test(location.hash || '')) {
+    $('resultInput').value = location.href;
+    openHandoff(location.href);
   }
 
   var fromUrl = new URLSearchParams(location.search).get('session');

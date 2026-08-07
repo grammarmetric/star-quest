@@ -115,18 +115,7 @@
   var plays = 0;            // how many times she replayed the audio
   var picked = null;        // her working answer for build/spell items
 
-  var KIND_LABEL = {
-    'picture-word': 'Tap the right picture',
-    'word-choice': 'Choose the best word',
-    'spell-word': 'Build the word',
-    'notice-match': 'Which sign says this?',
-    'reply-choice': 'Choose the best answer',
-    'true-false-say': 'Read, then choose',
-    'gap-grammar': 'Choose the missing word',
-    'sentence-build': 'Put the words in order',
-    'listen-picture': 'Listen, then tap the picture',
-    'listen-choice': 'Listen, then choose'
-  };
+  var KIND_LABEL = Report.KIND_LABEL;
 
   var PRAISE = ['Nice one!', 'Yes!', 'Great!', 'Well done!', 'You got it!', 'Brilliant!'];
   var NUDGE = ['Not that one.', 'Close! Not quite.', 'Good try.'];
@@ -148,17 +137,22 @@
 
   function statusChip(kind, detail) {
     var c = $('statusChip');
-    if (kind === 'live') {
+    if (kind === 'firebase') {
       c.className = 'chip chip--live';
       c.innerHTML = svg('check', '1rem') + ' teacher is watching';
+    } else if (kind === 'local') {
+      // No backend. Still fine — the teacher gets the report by link at the
+      // end, and can watch live if she is on this same computer.
+      c.className = 'chip chip--live';
+      c.innerHTML = svg('check', '1rem') + ' ready to play';
     } else if (kind === 'connecting') {
       c.className = 'chip chip--quiet';
       c.textContent = 'connecting…';
     } else {
       c.className = 'chip chip--offline';
-      c.textContent = 'offline mode';
-      c.title = detail || '';
+      c.textContent = 'ready to play';
     }
+    c.title = detail || '';
   }
 
   /* ================= audio ================= */
@@ -263,6 +257,7 @@
     $('againBtn').addEventListener('click', function () { location.reload(); });
     $('printBtn').addEventListener('click', function () { window.print(); });
     $('stageNextBtn').addEventListener('click', nextStage);
+    $('sendBtn').addEventListener('click', sendToTeacher);
   }
 
   /* ================= quest lifecycle ================= */
@@ -410,12 +405,7 @@
     return (it.options || []).map(function (o) { return typeof o === 'string' ? o : o.label; });
   }
 
-  function answerText(it) {
-    if (it.kind === 'sentence-build') return it.answer;
-    if (it.kind === 'spell-word') return it.word;
-    var o = it.options[it.answer];
-    return typeof o === 'string' ? o : o.label;
-  }
+  function answerText(it) { return Report.answerText(it); }
 
   function pushState(status) {
     var d = stage();
@@ -688,8 +678,11 @@
     nextItem();
   }
 
+  var lastReport = null;
+
   function finish() {
     var report = buildReport();
+    lastReport = report;
     renderReport(report);
     Sync.set('report', report);
     Sync.set('current', null);
@@ -697,167 +690,41 @@
     show('screen-report');
   }
 
+  /* Hands the finished report to the teacher with no backend involved: the
+     result rides in the URL fragment, which never reaches any server. */
+  function sendToTeacher() {
+    if (!lastReport) return;
+    var url = Handoff.link(lastReport);
+    $('sendLink').value = url;
+    $('sendPanel').style.display = 'block';
+    $('sendPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    var done = function (ok) {
+      $('sendBtn').textContent = ok ? 'Copied!' : 'Copy it below';
+      setTimeout(function () { $('sendBtn').textContent = 'Send to my teacher'; }, 2500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () { done(true); }, function () { done(false); });
+    } else {
+      try { $('sendLink').select(); document.execCommand('copy'); done(true); }
+      catch (e) { done(false); }
+    }
+  }
+
   /* ================= report =================
      Everything below is computed from quest.answers. No fixed narrative. */
 
-  function levelName(n) {
-    return (DATA.meta.levelNames && DATA.meta.levelNames[String(n)]) || ('level ' + n);
-  }
-
-  /* "a, b and c" — not "a and b and c" */
-  function joinList(a) {
-    if (!a.length) return '';
-    if (a.length === 1) return a[0];
-    return a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
-  }
+  function levelName(n) { return Report.levelName(DATA, n); }
 
   function buildReport() {
-    var A = quest.answers;
-    var total = A.length;
-    var correct = A.filter(function (a) { return a.correct; }).length;
-    var elapsed = Date.now() - quest.startedAt;
-
-    var domains = DATA.domains.map(function (d) {
-      var mine = A.filter(function (a) { return a.domain === d.id; });
-      var got = mine.filter(function (a) { return a.correct; });
-      var levelsRight = got.map(function (a) { return a.level; });
-      var levelsSeen = mine.map(function (a) { return a.level; });
-      return {
-        id: d.id,
-        label: d.label,
-        stage: d.stage,
-        accent: d.accent,
-        icon: d.icon,
-        asked: mine.length,
-        correct: got.length,
-        percent: mine.length ? Math.round(got.length / mine.length * 100) : 0,
-        ceiling: levelsRight.length ? Math.max.apply(null, levelsRight) : 0,
-        reached: levelsSeen.length ? Math.max.apply(null, levelsSeen) : 0,
-        avgMs: mine.length ? Math.round(mine.reduce(function (s, a) { return s + a.ms; }, 0) / mine.length) : 0
-      };
-    });
-
-    // Per task type, so feedback can name the actual activity she struggled with.
-    var byKind = {};
-    A.forEach(function (a) {
-      var k = byKind[a.kind] || (byKind[a.kind] = { label: a.kindLabel, n: 0, got: 0 });
-      k.n++; if (a.correct) k.got++;
-    });
-
-    return {
+    return Report.build({
       name: quest.name,
       code: CODE,
-      exam: DATA.meta.exam,
-      finishedAt: Date.now(),
-      elapsedMs: elapsed,
-      asked: total,
-      correct: correct,
-      percent: total ? Math.round(correct / total * 100) : 0,
-      domains: domains,
-      byKind: byKind,
-      strengths: strengthsFrom(domains, byKind, A),
-      growth: growthFrom(domains, byKind, A),
-      answers: A
-    };
-  }
-
-  function strengthsFrom(domains, byKind, A) {
-    var out = [];
-
-    var strong = domains.filter(function (d) { return d.asked && d.percent >= 70; })
-      .sort(function (a, b) { return b.percent - a.percent; });
-
-    strong.forEach(function (d) {
-      var s = d.label + ' — ' + d.correct + ' out of ' + d.asked + ' right';
-      if (d.ceiling >= 2) s += ', including questions at ' + levelName(d.ceiling) + ' level';
-      out.push(s + '.');
+      data: DATA,
+      answers: quest.answers,
+      elapsedMs: Date.now() - quest.startedAt,
+      finishedAt: Date.now()
     });
-
-    // Nothing cleared 70%? Then name the best area anyway — but say it as the
-    // relative fact it is, not as praise the numbers don't support.
-    if (!strong.length) {
-      var best = domains.slice().sort(function (a, b) { return b.percent - a.percent; })[0];
-      if (best && best.correct > 0) {
-        out.push('Strongest area was ' + best.label.toLowerCase() + ' — ' +
-          best.correct + ' out of ' + best.asked + '.');
-      }
-    }
-
-    // Per-task praise is only informative when it distinguishes something.
-    // On a flawless run it just restates the score, so it is suppressed.
-    var kinds = Object.keys(byKind);
-    var perfect = kinds.filter(function (k) { return byKind[k].n >= 2 && byKind[k].got === byKind[k].n; });
-    if (perfect.length && perfect.length < kinds.length) {
-      perfect.slice(0, 2).forEach(function (k) {
-        out.push('Perfect on “' + byKind[k].label.toLowerCase() + '” — ' +
-          byKind[k].n + ' out of ' + byKind[k].n + '.');
-      });
-    }
-
-    var top = domains.filter(function (d) { return d.ceiling >= 3; });
-    if (top.length) {
-      out.push('Answered real A2 Key exam questions correctly in ' +
-        joinList(top.map(function (d) { return d.label.toLowerCase(); })) + '.');
-    }
-
-    var quick = A.filter(function (a) { return a.correct && a.ms < 8000; });
-    if (quick.length >= Math.ceil(A.length / 2) && out.length < 5) {
-      out.push('Answered most questions confidently — ' + quick.length + ' correct answers in under 8 seconds.');
-    }
-
-    // If the evidence supports nothing at all, say that rather than invent praise.
-    if (!out.length) {
-      out.push('This run does not show a clear strength yet. The questions may be pitched too high — try again after some ' +
-        levelName(1) + ' practice.');
-    }
-    return out.slice(0, 6);
-  }
-
-  function growthFrom(domains, byKind, A) {
-    var out = [];
-
-    domains.filter(function (d) { return d.asked && d.percent < 70; })
-      .sort(function (a, b) { return a.percent - b.percent; })
-      .forEach(function (d) {
-        out.push(d.label + ' — ' + d.correct + ' out of ' + d.asked + '. ' +
-          'She was working at ' + levelName(Math.max(1, d.reached)) + ' here.');
-      });
-
-    // Naming every missed task type is noise when she missed most of them —
-    // the domain lines above already say that. Two most-attempted only.
-    var kinds = Object.keys(byKind);
-    var missed = kinds.filter(function (k) { return byKind[k].n >= 2 && byKind[k].got === 0; });
-    if (missed.length && missed.length < kinds.length) {
-      missed.sort(function (a, b) { return byKind[b].n - byKind[a].n; })
-        .slice(0, 2)
-        .forEach(function (k) {
-          out.push('Missed every “' + byKind[k].label.toLowerCase() + '” question (' +
-            byKind[k].n + ' of them) — worth teaching that task type directly.');
-        });
-    }
-
-    var stuckLow = domains.filter(function (d) { return d.asked && d.reached <= 1; });
-    if (stuckLow.length) {
-      out.push('Stayed at ' + levelName(1) + ' level throughout ' +
-        joinList(stuckLow.map(function (d) { return d.label.toLowerCase(); })) +
-        ', so A2 Key material was never reached there.');
-    }
-
-    var replayed = A.filter(function (a) { return a.plays >= 3; });
-    if (replayed.length >= 2) {
-      out.push('Replayed the audio 3+ times on ' + replayed.length + ' listening questions — more listening at natural speed would help.');
-    }
-
-    var slow = A.filter(function (a) { return a.ms > 30000; });
-    if (slow.length >= 3) {
-      out.push(slow.length + ' questions took over 30 seconds, which usually means the wording, not the English, was the obstacle.');
-    }
-
-    if (!out.length) {
-      out.push('Nothing came out weak in this run — every skill scored 70% or above. ' +
-        'The next useful step is a longer test with more ' + levelName(3) + ' questions, since this one may not have found her ceiling.');
-    }
-    return out.slice(0, 6);
   }
 
   function renderReport(rep) {
