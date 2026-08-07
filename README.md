@@ -1,14 +1,19 @@
-# Star quest — a Cambridge A2 Key (KET) adventure for Lily
+# Star quest — a Cambridge A2 Key (KET) adventure
 
 A single-page, gamified English assessment for one 7-year-old, with a live
 teacher monitor. Plain HTML, CSS and JavaScript — no build step, no bundler,
 no npm install. Drop it on GitHub Pages and it runs.
 
+> **No student's name lives in this repository.** The name shown on screen
+> arrives at runtime, either from `?name=` on the link you send or typed on the
+> welcome screen. Scores never touch the repo at all — they live in Firebase for
+> the length of the session. Keep it that way if you fork this.
+
 **Two pages:**
 
 | Page | Who opens it | What it does |
 |---|---|---|
-| `index.html` | Lily | The quest — four stages, one per KET skill domain |
+| `index.html` | The student | The quest — four stages, one per KET skill domain |
 | `teacher.html` | You | Watches her screen live and shows the final report |
 
 ---
@@ -37,7 +42,7 @@ Browsers refuse to read `questions.json` from a `file://` page, so you need a
 local server. Node is already on this machine:
 
 ```powershell
-cd C:\Users\User\lily-quest
+cd C:\Users\User\star-quest
 npx serve
 ```
 
@@ -51,31 +56,31 @@ until you finish step 4.
 ## 3. Deploy to GitHub Pages
 
 ```powershell
-cd C:\Users\User\lily-quest
+cd C:\Users\User\star-quest
 git init -b main
 git add -A
-git commit -m "Star quest: KET assessment for Lily"
+git commit -m "Star quest: KET assessment"
 
 # gh is installed but not on PATH on this machine
-& "C:\Program Files\GitHub CLI\gh.exe" repo create lily-quest --private --source . --push
+& "C:\Program Files\GitHub CLI\gh.exe" repo create star-quest --public --source . --push
 ```
 
 Then turn Pages on:
 
 ```powershell
-& "C:\Program Files\GitHub CLI\gh.exe" api -X POST repos/grammarmetric/lily-quest/pages `
+& "C:\Program Files\GitHub CLI\gh.exe" api -X POST repos/grammarmetric/star-quest/pages `
   -f "source[branch]=main" -f "source[path]=/"
 ```
 
 Or click: **Settings → Pages → Source: Deploy from a branch → main → / (root)**.
 
 Live in about a minute at
-`https://grammarmetric.github.io/lily-quest/`.
+`https://grammarmetric.github.io/star-quest/`.
 
-> **Private repo note:** GitHub Pages on a *private* repo needs GitHub Pro or
-> higher. If Pages refuses to enable, either upgrade or make the repo public —
-> there is nothing secret in the code, and both pages carry
-> `noindex, nofollow` so they will not turn up in search.
+> **Why this repo is public:** GitHub Pages will not serve a *private* repo on
+> the free plan. Rather than pay for Pro, the repo carries no personal data at
+> all — see the note at the top — so publishing it costs nothing in privacy.
+> Both pages also carry `noindex, nofollow` so they will not turn up in search.
 
 ---
 
@@ -90,7 +95,7 @@ that, then the script does the other six steps:
 
 ```powershell
 firebase login                       # opens a browser, sign in as admin@grammarmetric.com
-cd C:\Users\User\lily-quest
+cd C:\Users\User\star-quest
 .\tools\setup-firebase.ps1
 ```
 
@@ -118,7 +123,7 @@ If you would rather click through it, five steps:
 
 **1. Create the project.**
 [console.firebase.google.com](https://console.firebase.google.com) → Add
-project → name it `lily-quest` → you can switch Google Analytics off.
+project → name it `star-quest` → you can switch Google Analytics off.
 
 **2. Create the Realtime Database *first*.**
 Build → Realtime Database → Create Database → pick a region near you
@@ -146,7 +151,9 @@ domains**: `grammarmetric.github.io`.
 ### Using it in a lesson
 
 1. Open `teacher.html`, click **Make a new code**, click **Watch**.
-2. Send Lily the student link shown (`index.html?session=XXXXXXXX`).
+2. Send her the student link shown (`index.html?session=XXXXXXXX`). Append
+   `&name=Sam` (any name) and the page greets her by name — without that name
+   ever being committed to this repository.
 3. As she plays you see, in real time: the exact question on her screen, the
    options she is choosing between, which one she tapped, whether it was right,
    how long each one took, how many times she replayed the audio, and her
@@ -254,7 +261,7 @@ record MP3s.
 - `domain` — must match a `domains[].id`: `vocabulary`, `reading`, `grammar`, `listening`
 - `level` — `1`, `2` or `3`
 - `answer` — the **zero-based index** into `options` (so `1` = the second one)
-- `ketRef` — free text, shown to you on the report and monitor, never to Lily
+- `ketRef` — free text, shown to you on the report and monitor, never to her
 
 The nine `kind` values, and the extra fields each needs:
 
@@ -290,7 +297,8 @@ any 24×24 outline SVG, strokes only, no fills.
   trillion, `sessions` itself is unreadable so codes cannot be enumerated, and
   the payload is one child's practice test. That is a proportionate trade-off —
   but it is a trade-off, and you should know it rather than discover it.
-- Lily's **name** goes into the database. Nothing else identifying does.
+- The **name she types** goes into the database for the length of the session.
+  Nothing else identifying does, and no name is committed to this repo.
 - Both pages carry `noindex, nofollow`.
 - If you want it stricter later: sign yourself in with email/password, have
   `teacher.html` write `ownerUid` when it creates a session, and require
@@ -301,7 +309,7 @@ any 24×24 outline SVG, strokes only, no fills.
 
 ## 9. The report
 
-Generated on Lily's screen the moment she finishes, and mirrored to yours. It
+Generated on her screen the moment she finishes, and mirrored to yours. It
 shows overall score, total and per-question time, a per-domain breakdown with
 the highest level she got right in each, strengths, what to practise next, and
 every question with what she answered.

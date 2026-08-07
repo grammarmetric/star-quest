@@ -24,7 +24,7 @@ param(
   [string]$ProjectId  = '',
   [string]$Location   = 'asia-southeast1',
   [string]$PagesDomain = 'grammarmetric.github.io',
-  [string]$DisplayName = 'Lily Star Quest'
+  [string]$DisplayName = 'Star Quest'
 )
 
 $ErrorActionPreference = 'Continue'
@@ -92,7 +92,8 @@ function Api($method, $uri, $bodyObj) {
 Step '1. Firebase project'
 if (-not $ProjectId) {
   $suffix = -join ((1..6) | ForEach-Object { 'abcdefghijklmnopqrstuvwxyz0123456789'[(Get-Random -Max 36)] })
-  $ProjectId = "lily-quest-$suffix"
+  # NB: this id ends up in the public databaseURL, so it must stay name-free
+  $ProjectId = "star-quest-$suffix"
   Write-Host "  creating $ProjectId ..."
   $out = & $firebase projects:create $ProjectId --display-name "$DisplayName" 2>&1 | Out-String
   if ($LASTEXITCODE -eq 0) { OK "project $ProjectId created" }

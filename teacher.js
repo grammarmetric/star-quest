@@ -24,7 +24,7 @@
 
   /* ---------- theme (same behaviour as the student app) ---------- */
 
-  var THEME_KEY = 'lily-quest-theme';
+  var THEME_KEY = 'star-quest-theme';
   function applyTheme(mode) {
     if (mode) document.documentElement.setAttribute('data-theme', mode);
     else document.documentElement.removeAttribute('data-theme');
@@ -90,6 +90,7 @@
 
   var startedFeed = false;
   var lastReport = null;
+  var studentName = '';   // whatever she typed; never hard-coded here
 
   function renderState(st) {
     if (!st) return;
@@ -192,14 +193,17 @@
           '<div class="t-empty">Not connected. ' + esc(offlineReason) + '</div>';
         return;
       }
-      Sync.watch('student', function (s) { $('sName').textContent = (s && s.name) || '—'; });
+      Sync.watch('student', function (s) {
+        studentName = (s && s.name) || '';
+        $('sName').textContent = studentName || '—';
+      });
       Sync.watch('state', renderState);
       Sync.watch('current', renderCurrent);
       Sync.watch('report', renderReport);
       Sync.watchAdded('events', addEvent);
       Sync.watch('presence', function (p) {
         var c = $('statusChip');
-        if (p === true) { c.className = 'chip chip--live'; c.innerHTML = svg('check', '1rem') + ' Lily is on the page'; }
+        if (p === true) { c.className = 'chip chip--live'; c.innerHTML = svg('check', '1rem') + ' ' + esc(studentName || 'student') + ' is on the page'; }
         else if (p === false) { c.className = 'chip chip--quiet'; c.textContent = 'she closed the page'; }
       });
     });

@@ -51,7 +51,7 @@
 
   /* ================= theme ================= */
 
-  var THEME_KEY = 'lily-quest-theme';
+  var THEME_KEY = 'star-quest-theme';
 
   function applyTheme(mode) {
     if (mode) document.documentElement.setAttribute('data-theme', mode);
@@ -89,14 +89,21 @@
     var p = new URLSearchParams(location.search).get('session');
     if (p && /^[A-Z0-9]{8}$/i.test(p)) return p.toUpperCase();
     var saved = null;
-    try { saved = sessionStorage.getItem('lily-quest-code'); } catch (e) {}
+    try { saved = sessionStorage.getItem('star-quest-code'); } catch (e) {}
     if (saved) return saved;
     var c = newCode();
-    try { sessionStorage.setItem('lily-quest-code', c); } catch (e) {}
+    try { sessionStorage.setItem('star-quest-code', c); } catch (e) {}
     return c;
   }
 
   var CODE = sessionCode();
+
+  /* The student's name is never stored in this repo. It comes from ?name= on
+     the link she is given, or she types it on the welcome screen. */
+  function urlName() {
+    var n = new URLSearchParams(location.search).get('name');
+    return n ? n.trim().slice(0, 24) : '';
+  }
 
   /* ================= state ================= */
 
@@ -240,7 +247,7 @@
   /* ================= welcome ================= */
 
   function renderWelcome() {
-    $('nameInput').value = DATA.meta.student || 'Lily';
+    $('nameInput').value = urlName() || DATA.meta.student || '';
 
     $('stagePreview').innerHTML = DATA.domains.map(function (d) {
       return '<div class="card" data-accent="' + esc(d.accent) + '">' +
@@ -261,7 +268,8 @@
   /* ================= quest lifecycle ================= */
 
   function start() {
-    var name = ($('nameInput').value || 'Lily').trim().slice(0, 24) || 'Lily';
+    var fallback = DATA.meta.student || 'Star explorer';
+    var name = ($('nameInput').value || fallback).trim().slice(0, 24) || fallback;
     var a = DATA.meta.adaptive;
 
     quest = {
