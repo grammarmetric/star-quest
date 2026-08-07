@@ -1,0 +1,847 @@
+{
+  "meta": {
+    "student": "Lily",
+    "title": "Star quest",
+    "exam": "Cambridge A2 Key for Schools (KET)",
+    "itemsPerDomain": 5,
+    "adaptive": {
+      "startLevel": 1,
+      "promoteAfterCorrect": 2,
+      "demoteAfterWrong": 1,
+      "minLevel": 1,
+      "maxLevel": 3
+    },
+    "levelNames": {
+      "1": "A1 Movers",
+      "2": "A1+ / low A2",
+      "3": "A2 Key"
+    },
+    "note": "Swap this file for your own content. Keep the `domain`, `level`, `kind` and `answer` fields — the engine reads only those. Every item may carry an optional `audio` path (e.g. \"audio/my-clip.mp3\"); if present it plays instead of the browser voice reading `say`."
+  },
+
+  "domains": [
+    {
+      "id": "vocabulary",
+      "label": "Vocabulary",
+      "stage": "Word Planet",
+      "blurb": "Words and pictures",
+      "accent": "orange",
+      "icon": "apple"
+    },
+    {
+      "id": "reading",
+      "label": "Reading",
+      "stage": "Sign Valley",
+      "blurb": "Signs and stories",
+      "accent": "cyan",
+      "icon": "book"
+    },
+    {
+      "id": "grammar",
+      "label": "Grammar",
+      "stage": "Sentence Bridge",
+      "blurb": "Building sentences",
+      "accent": "magenta",
+      "icon": "pencil"
+    },
+    {
+      "id": "listening",
+      "label": "Listening",
+      "stage": "Echo Moon",
+      "blurb": "Listen and choose",
+      "accent": "yellow",
+      "icon": "ear"
+    }
+  ],
+
+  "items": [
+
+    {
+      "id": "v1-bike",
+      "domain": "vocabulary",
+      "level": 1,
+      "kind": "picture-word",
+      "ketRef": "Movers-style picture vocabulary",
+      "prompt": "Which one is a bicycle?",
+      "say": "Which one is a bicycle?",
+      "options": [
+        { "icon": "bus", "label": "bus" },
+        { "icon": "bike", "label": "bicycle" },
+        { "icon": "car", "label": "car" }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "v1-apple",
+      "domain": "vocabulary",
+      "level": 1,
+      "kind": "picture-word",
+      "ketRef": "Movers-style picture vocabulary",
+      "prompt": "Which one can you eat?",
+      "say": "Which one can you eat?",
+      "options": [
+        { "icon": "ball", "label": "ball" },
+        { "icon": "shoe", "label": "shoe" },
+        { "icon": "apple", "label": "apple" }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "v1-school",
+      "domain": "vocabulary",
+      "level": 1,
+      "kind": "picture-word",
+      "ketRef": "Movers-style picture vocabulary",
+      "prompt": "Where do you learn and see your teacher?",
+      "say": "Where do you learn and see your teacher?",
+      "options": [
+        { "icon": "school", "label": "school" },
+        { "icon": "shop", "label": "shop" },
+        { "icon": "house", "label": "house" }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "v1-breakfast",
+      "domain": "vocabulary",
+      "level": 1,
+      "kind": "word-choice",
+      "ketRef": "KET Reading & Writing Part 2 format",
+      "prompt": "We eat ___ for breakfast.",
+      "say": "We eat, something, for breakfast.",
+      "options": ["bread", "chair", "shoes"],
+      "answer": 0
+    },
+    {
+      "id": "v1-spell-book",
+      "domain": "vocabulary",
+      "level": 1,
+      "kind": "spell-word",
+      "ketRef": "KET Reading & Writing Part 6 format",
+      "prompt": "You read this. It has a story inside.",
+      "say": "You read this. It has a story inside.",
+      "word": "book",
+      "letterPool": ["k", "o", "o", "d", "n"],
+      "answer": "book"
+    },
+
+    {
+      "id": "v2-rain",
+      "domain": "vocabulary",
+      "level": 2,
+      "kind": "picture-word",
+      "ketRef": "Movers / low A2 weather vocabulary",
+      "prompt": "Which one shows rain?",
+      "say": "Which one shows rain?",
+      "options": [
+        { "icon": "sun", "label": "sun" },
+        { "icon": "rain", "label": "rain" },
+        { "icon": "snow", "label": "snow" }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "v2-photo",
+      "domain": "vocabulary",
+      "level": 2,
+      "kind": "word-choice",
+      "ketRef": "KET Reading & Writing Part 2 format (collocation)",
+      "prompt": "I want to ___ a photo of the cat.",
+      "say": "I want to, something, a photo of the cat.",
+      "options": ["take", "make", "do"],
+      "answer": 0
+    },
+    {
+      "id": "v2-football",
+      "domain": "vocabulary",
+      "level": 2,
+      "kind": "word-choice",
+      "ketRef": "KET Reading & Writing Part 2 format (collocation)",
+      "prompt": "Let's ___ football in the park.",
+      "say": "Let's, something, football in the park.",
+      "options": ["do", "play", "go"],
+      "answer": 1
+    },
+    {
+      "id": "v2-guitar",
+      "domain": "vocabulary",
+      "level": 2,
+      "kind": "picture-word",
+      "ketRef": "Movers / low A2 object vocabulary",
+      "prompt": "Which one is a guitar?",
+      "say": "Which one is a guitar?",
+      "options": [
+        { "icon": "camera", "label": "camera" },
+        { "icon": "phone", "label": "phone" },
+        { "icon": "guitar", "label": "guitar" }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "v2-spell-shoes",
+      "domain": "vocabulary",
+      "level": 2,
+      "kind": "spell-word",
+      "ketRef": "KET Reading & Writing Part 6 format",
+      "prompt": "You wear these on your feet when you go outside.",
+      "say": "You wear these on your feet when you go outside.",
+      "word": "shoes",
+      "letterPool": ["h", "o", "e", "s", "a", "t"],
+      "answer": "shoes"
+    },
+
+    {
+      "id": "v3-popular",
+      "domain": "vocabulary",
+      "level": 3,
+      "kind": "word-choice",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 2, Q6",
+      "prompt": "The internet café quickly became ___ with Ivan and his friends.",
+      "say": "The internet café quickly became, something, with Ivan and his friends.",
+      "options": ["favourite", "popular", "excellent"],
+      "answer": 1
+    },
+    {
+      "id": "v3-takes",
+      "domain": "vocabulary",
+      "level": 3,
+      "kind": "word-choice",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 2, Q7",
+      "prompt": "It only ___ Ivan five minutes to get to the café.",
+      "say": "It only, something, Ivan five minutes to get to the café.",
+      "options": ["takes", "has", "gets"],
+      "answer": 0
+    },
+    {
+      "id": "v3-kinds",
+      "domain": "vocabulary",
+      "level": 3,
+      "kind": "word-choice",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 2, Q9",
+      "prompt": "The café has different ___ of computer games that they can play.",
+      "say": "The café has different, something, of computer games that they can play.",
+      "options": ["things", "ways", "kinds"],
+      "answer": 2
+    },
+    {
+      "id": "v3-useful",
+      "domain": "vocabulary",
+      "level": 3,
+      "kind": "word-choice",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 2, Q10",
+      "prompt": "Ivan thinks there is a lot of ___ information on the internet.",
+      "say": "Ivan thinks there is a lot of, something, information on the internet.",
+      "options": ["certain", "sure", "useful"],
+      "answer": 2
+    },
+    {
+      "id": "v3-spell-camera",
+      "domain": "vocabulary",
+      "level": 3,
+      "kind": "spell-word",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 6",
+      "prompt": "If you enjoy taking photographs, you will need this.",
+      "say": "If you enjoy taking photographs, you will need this.",
+      "word": "camera",
+      "letterPool": ["a", "m", "e", "r", "a", "p", "o", "t"],
+      "answer": "camera"
+    },
+
+    {
+      "id": "r1-nodogs",
+      "domain": "reading",
+      "level": 1,
+      "kind": "notice-match",
+      "ketRef": "KET Reading & Writing Part 1 format",
+      "prompt": "Which sign says this? You cannot bring your dog in here.",
+      "say": "Which sign says this? You cannot bring your dog in here.",
+      "optionStyle": "notice",
+      "options": ["NO DOGS", "DOGS FOR SALE", "FEED THE DOGS HERE"],
+      "answer": 0
+    },
+    {
+      "id": "r1-push",
+      "domain": "reading",
+      "level": 1,
+      "kind": "notice-match",
+      "ketRef": "KET Reading & Writing Part 1 format",
+      "prompt": "Which sign says this? The shop is not open now.",
+      "say": "Which sign says this? The shop is not open now.",
+      "optionStyle": "notice",
+      "options": ["OPEN — COME IN!", "CLOSED", "PUSH THE DOOR"],
+      "answer": 1
+    },
+    {
+      "id": "r1-age",
+      "domain": "reading",
+      "level": 1,
+      "kind": "reply-choice",
+      "ketRef": "KET Reading & Writing Part 3 format",
+      "prompt": "How old are you?",
+      "say": "How old are you?",
+      "options": ["I'm seven.", "It's blue.", "Yes, please."],
+      "answer": 0
+    },
+    {
+      "id": "r1-cake",
+      "domain": "reading",
+      "level": 1,
+      "kind": "true-false-say",
+      "ketRef": "KET Reading & Writing Part 4 format",
+      "text": "Tom has a big brown dog. The dog is called Max. Max likes to run in the park every morning.",
+      "prompt": "Max is a cat.",
+      "say": "Tom has a big brown dog. The dog is called Max. Max likes to run in the park every morning. Is this right? Max is a cat.",
+      "options": ["Yes, that's right", "No, that's wrong", "It doesn't say"],
+      "answer": 1
+    },
+    {
+      "id": "r1-park",
+      "domain": "reading",
+      "level": 1,
+      "kind": "true-false-say",
+      "ketRef": "KET Reading & Writing Part 4 format",
+      "text": "Tom has a big brown dog. The dog is called Max. Max likes to run in the park every morning.",
+      "prompt": "Max is three years old.",
+      "say": "Is this right? Max is three years old.",
+      "options": ["Yes, that's right", "No, that's wrong", "It doesn't say"],
+      "answer": 2
+    },
+
+    {
+      "id": "r2-quiet",
+      "domain": "reading",
+      "level": 2,
+      "kind": "notice-match",
+      "ketRef": "KET Reading & Writing Part 1 format",
+      "prompt": "Which sign says this? You must not make a noise here.",
+      "say": "Which sign says this? You must not make a noise here.",
+      "optionStyle": "notice",
+      "options": ["PLEASE BE QUIET — PEOPLE ARE READING", "SINGING CLUB — EVERY FRIDAY", "TALK TO OUR STAFF FOR HELP"],
+      "answer": 0
+    },
+    {
+      "id": "r2-lunch",
+      "domain": "reading",
+      "level": 2,
+      "kind": "reply-choice",
+      "ketRef": "KET Reading & Writing Part 3 format",
+      "prompt": "Would you like to have lunch with us?",
+      "say": "Would you like to have lunch with us?",
+      "options": ["It was very nice.", "Yes, I'd love to.", "I have two."],
+      "answer": 1
+    },
+    {
+      "id": "r2-swim",
+      "domain": "reading",
+      "level": 2,
+      "kind": "true-false-say",
+      "ketRef": "KET Reading & Writing Part 4 format",
+      "text": "Every Saturday, Nina goes swimming with her mum. The pool is near their house, so they walk there. Nina's favourite thing is jumping into the water.",
+      "prompt": "Nina goes swimming on Saturdays.",
+      "say": "Every Saturday, Nina goes swimming with her mum. The pool is near their house, so they walk there. Nina's favourite thing is jumping into the water. Is this right? Nina goes swimming on Saturdays.",
+      "options": ["Yes, that's right", "No, that's wrong", "It doesn't say"],
+      "answer": 0
+    },
+    {
+      "id": "r2-swim-car",
+      "domain": "reading",
+      "level": 2,
+      "kind": "true-false-say",
+      "ketRef": "KET Reading & Writing Part 4 format",
+      "text": "Every Saturday, Nina goes swimming with her mum. The pool is near their house, so they walk there. Nina's favourite thing is jumping into the water.",
+      "prompt": "Nina goes to the pool by car.",
+      "say": "Is this right? Nina goes to the pool by car.",
+      "options": ["Yes, that's right", "No, that's wrong", "It doesn't say"],
+      "answer": 1
+    },
+    {
+      "id": "r2-swim-sister",
+      "domain": "reading",
+      "level": 2,
+      "kind": "true-false-say",
+      "ketRef": "KET Reading & Writing Part 4 format",
+      "text": "Every Saturday, Nina goes swimming with her mum. The pool is near their house, so they walk there. Nina's favourite thing is jumping into the water.",
+      "prompt": "Nina has a sister.",
+      "say": "Is this right? Nina has a sister.",
+      "options": ["Yes, that's right", "No, that's wrong", "It doesn't say"],
+      "answer": 2
+    },
+
+    {
+      "id": "r3-lostproperty",
+      "domain": "reading",
+      "level": 3,
+      "kind": "notice-match",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 1, Q2",
+      "prompt": "Which notice says this? Go here if you have lost something.",
+      "say": "Which notice says this? Go here if you have lost something.",
+      "optionStyle": "notice",
+      "options": [
+        "LOST PROPERTY OFFICE — SECOND FLOOR",
+        "PLEASE DO NOT LEAVE BAGS HERE",
+        "NEW ITEMS FOR SALE THIS WEEK"
+      ],
+      "answer": 0
+    },
+    {
+      "id": "r3-walk",
+      "domain": "reading",
+      "level": 3,
+      "kind": "notice-match",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 1, Q3",
+      "prompt": "Which notice says this? You must walk in this place.",
+      "say": "Which notice says this? You must walk in this place.",
+      "optionStyle": "notice",
+      "options": [
+        "SWIMMING LESSONS — ASK INSIDE",
+        "NO RUNNING BY THE POOL",
+        "THIS WAY TO THE SPORTS FIELD"
+      ],
+      "answer": 1
+    },
+    {
+      "id": "r3-noentry",
+      "domain": "reading",
+      "level": 3,
+      "kind": "notice-match",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 1, Q5",
+      "prompt": "Which notice says this? You cannot go in through here.",
+      "say": "Which notice says this? You cannot go in through here.",
+      "optionStyle": "notice",
+      "options": [
+        "OPEN 9 A.M. TO 6 P.M.",
+        "PLEASE CLOSE THE DOOR",
+        "EXIT ONLY — NO ENTRY"
+      ],
+      "answer": 2
+    },
+    {
+      "id": "r3-home",
+      "domain": "reading",
+      "level": 3,
+      "kind": "reply-choice",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 3, Q12",
+      "prompt": "I have to go home now.",
+      "say": "I have to go home now.",
+      "options": ["Have you been before?", "It's still quite early.", "How long was it for?"],
+      "answer": 1
+    },
+    {
+      "id": "r3-tickets",
+      "domain": "reading",
+      "level": 3,
+      "kind": "reply-choice",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 3, Q14",
+      "prompt": "There weren't any more tickets for the match.",
+      "say": "There weren't any more tickets for the match.",
+      "options": ["That's a pity.", "It isn't enough.", "I hope so."],
+      "answer": 0
+    },
+    {
+      "id": "r3-ana-olympic",
+      "domain": "reading",
+      "level": 3,
+      "kind": "true-false-say",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 4, Q21",
+      "text": "Ana Johnson is a young swimmer who lives in Melbourne, in Australia. Her dream is to swim for Australia in the next Olympics. She swims in both long and short races, and she has already come first in many important competitions.",
+      "prompt": "Ana hopes she will become an Olympic swimmer.",
+      "say": "Ana Johnson is a young swimmer who lives in Melbourne, in Australia. Her dream is to swim for Australia in the next Olympics. She swims in both long and short races, and she has already come first in many important competitions. Is this right? Ana hopes she will become an Olympic swimmer.",
+      "options": ["Yes, that's right", "No, that's wrong", "It doesn't say"],
+      "answer": 0
+    },
+    {
+      "id": "r3-ana-short",
+      "domain": "reading",
+      "level": 3,
+      "kind": "true-false-say",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 4, Q22",
+      "text": "Ana Johnson is a young swimmer who lives in Melbourne, in Australia. Her dream is to swim for Australia in the next Olympics. She swims in both long and short races, and she has already come first in many important competitions.",
+      "prompt": "Ana knows that she is better at short races than long ones.",
+      "say": "Is this right? Ana knows that she is better at short races than long ones.",
+      "options": ["Yes, that's right", "No, that's wrong", "It doesn't say"],
+      "answer": 2
+    },
+
+    {
+      "id": "g1-has",
+      "domain": "grammar",
+      "level": 1,
+      "kind": "gap-grammar",
+      "ketRef": "KET Reading & Writing Part 5 format",
+      "prompt": "She ___ got a red bag.",
+      "say": "She, something, got a red bag.",
+      "options": ["have", "has", "having"],
+      "answer": 1
+    },
+    {
+      "id": "g1-thereare",
+      "domain": "grammar",
+      "level": 1,
+      "kind": "gap-grammar",
+      "ketRef": "KET Reading & Writing Part 5 format",
+      "prompt": "There ___ three cats on the wall.",
+      "say": "There, something, three cats on the wall.",
+      "options": ["is", "are", "am"],
+      "answer": 1
+    },
+    {
+      "id": "g1-build-cats",
+      "domain": "grammar",
+      "level": 1,
+      "kind": "sentence-build",
+      "ketRef": "Word-order task, Movers level",
+      "prompt": "Put the words in order.",
+      "say": "Put the words in order.",
+      "tiles": ["I", "like", "big", "cats"],
+      "answer": "I like big cats"
+    },
+    {
+      "id": "g1-my",
+      "domain": "grammar",
+      "level": 1,
+      "kind": "gap-grammar",
+      "ketRef": "KET Reading & Writing Part 5 format",
+      "prompt": "This is ___ book. It is not yours.",
+      "say": "This is, something, book. It is not yours.",
+      "options": ["me", "my", "I"],
+      "answer": 1
+    },
+    {
+      "id": "g1-doyou",
+      "domain": "grammar",
+      "level": 1,
+      "kind": "gap-grammar",
+      "ketRef": "KET Reading & Writing Part 5 format",
+      "prompt": "___ you like ice cream?",
+      "say": "Something, you like ice cream?",
+      "options": ["Do", "Does", "Is"],
+      "answer": 0
+    },
+
+    {
+      "id": "g2-went",
+      "domain": "grammar",
+      "level": 2,
+      "kind": "gap-grammar",
+      "ketRef": "KET Reading & Writing Part 5 format",
+      "prompt": "We went ___ the park yesterday.",
+      "say": "We went, something, the park yesterday.",
+      "options": ["to", "at", "in"],
+      "answer": 0
+    },
+    {
+      "id": "g2-build-guitar",
+      "domain": "grammar",
+      "level": 2,
+      "kind": "sentence-build",
+      "ketRef": "Word-order task, low A2",
+      "prompt": "Put the words in order.",
+      "say": "Put the words in order.",
+      "tiles": ["My", "sister", "is", "playing", "the guitar"],
+      "answer": "My sister is playing the guitar"
+    },
+    {
+      "id": "g2-didnt",
+      "domain": "grammar",
+      "level": 2,
+      "kind": "gap-grammar",
+      "ketRef": "KET Reading & Writing Part 5 format",
+      "prompt": "I ___ go to school on Sunday.",
+      "say": "I, something, go to school on Sunday.",
+      "options": ["don't", "doesn't", "not"],
+      "answer": 0
+    },
+    {
+      "id": "g2-bigger",
+      "domain": "grammar",
+      "level": 2,
+      "kind": "gap-grammar",
+      "ketRef": "KET Reading & Writing Part 5 format",
+      "prompt": "An elephant is ___ than a mouse.",
+      "say": "An elephant is, something, than a mouse.",
+      "options": ["big", "bigger", "biggest"],
+      "answer": 1
+    },
+    {
+      "id": "g2-goodat",
+      "domain": "grammar",
+      "level": 2,
+      "kind": "gap-grammar",
+      "ketRef": "KET Reading & Writing Part 5 format (preposition)",
+      "prompt": "My sister is very good ___ drawing.",
+      "say": "My sister is very good, something, drawing.",
+      "options": ["at", "in", "on"],
+      "answer": 0
+    },
+
+    {
+      "id": "g3-by",
+      "domain": "grammar",
+      "level": 3,
+      "kind": "gap-grammar",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 5, Q28",
+      "prompt": "The circus was started ___ the Canadian Guy Laliberté.",
+      "say": "The circus was started, something, the Canadian Guy Laliberté.",
+      "options": ["from", "by", "of"],
+      "answer": 1
+    },
+    {
+      "id": "g3-playing",
+      "domain": "grammar",
+      "level": 3,
+      "kind": "gap-grammar",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 5, Q29",
+      "prompt": "He travelled around Europe and earned money ___ music in the streets.",
+      "say": "He travelled around Europe and earned money, something, music in the streets.",
+      "options": ["played", "plays", "playing"],
+      "answer": 2
+    },
+    {
+      "id": "g3-his",
+      "domain": "grammar",
+      "level": 3,
+      "kind": "gap-grammar",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 5, Q30",
+      "prompt": "He started Cirque with ___ friend Daniel Gauthier.",
+      "say": "He started Cirque with, something, friend Daniel Gauthier.",
+      "options": ["their", "his", "its"],
+      "answer": 1
+    },
+    {
+      "id": "g3-all",
+      "domain": "grammar",
+      "level": 3,
+      "kind": "gap-grammar",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 5, Q31",
+      "prompt": "It now does shows ___ over the world.",
+      "say": "It now does shows, something, over the world.",
+      "options": ["some", "all", "enough"],
+      "answer": 1
+    },
+    {
+      "id": "g3-there",
+      "domain": "grammar",
+      "level": 3,
+      "kind": "gap-grammar",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 5, Q33",
+      "prompt": "The Cirque does not have any animals, but ___ is music and dance.",
+      "say": "The Cirque does not have any animals, but, something, is music and dance.",
+      "options": ["this", "it", "there"],
+      "answer": 2
+    },
+    {
+      "id": "g3-build-dance",
+      "domain": "grammar",
+      "level": 3,
+      "kind": "sentence-build",
+      "ketRef": "KET for Schools Sample Test 1, Reading & Writing Part 7 (source text)",
+      "prompt": "Put the words in order.",
+      "say": "Put the words in order.",
+      "tiles": ["I", "joined", "a dance school", "five years", "ago"],
+      "answer": "I joined a dance school five years ago"
+    },
+
+    {
+      "id": "l1-cat",
+      "domain": "listening",
+      "level": 1,
+      "kind": "listen-picture",
+      "ketRef": "KET Listening Part 1 format",
+      "prompt": "Which animal does the girl have?",
+      "say": "I have a little cat. She sleeps on my bed.",
+      "audio": null,
+      "options": [
+        { "icon": "dog", "label": "dog" },
+        { "icon": "cat", "label": "cat" },
+        { "icon": "bird", "label": "bird" }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "l1-time",
+      "domain": "listening",
+      "level": 1,
+      "kind": "listen-choice",
+      "ketRef": "KET Listening Part 1 format",
+      "prompt": "What time does school start?",
+      "say": "School starts at nine o'clock, so please don't be late.",
+      "audio": null,
+      "options": ["8 o'clock", "9 o'clock", "10 o'clock"],
+      "answer": 1
+    },
+    {
+      "id": "l1-age",
+      "domain": "listening",
+      "level": 1,
+      "kind": "listen-choice",
+      "ketRef": "KET Listening Part 1 format",
+      "prompt": "How old is Sam?",
+      "say": "Hello, my name is Sam. I am eight years old and I live with my grandma.",
+      "audio": null,
+      "options": ["six", "seven", "eight"],
+      "answer": 2
+    },
+    {
+      "id": "l1-red",
+      "domain": "listening",
+      "level": 1,
+      "kind": "listen-picture",
+      "ketRef": "KET Listening Part 1 format",
+      "prompt": "What does the boy want for his birthday?",
+      "say": "For my birthday I really want a new bicycle. A red one!",
+      "audio": null,
+      "options": [
+        { "icon": "bike", "label": "bicycle" },
+        { "icon": "ball", "label": "ball" },
+        { "icon": "book", "label": "book" }
+      ],
+      "answer": 0
+    },
+    {
+      "id": "l1-bag",
+      "domain": "listening",
+      "level": 1,
+      "kind": "listen-choice",
+      "ketRef": "KET Listening Part 1 format",
+      "prompt": "What colour is her school bag?",
+      "say": "My school bag is green, with a big pocket on the front.",
+      "audio": null,
+      "options": ["red", "green", "blue"],
+      "answer": 1
+    },
+
+    {
+      "id": "l2-weather",
+      "domain": "listening",
+      "level": 2,
+      "kind": "listen-picture",
+      "ketRef": "KET for Schools Sample Test 1, Listening Part 1, Q4",
+      "prompt": "What's the weather like now?",
+      "say": "It was lovely and sunny this morning, but look outside now — it's raining again.",
+      "audio": null,
+      "options": [
+        { "icon": "sun", "label": "sunny" },
+        { "icon": "snow", "label": "snowy" },
+        { "icon": "rain", "label": "rainy" }
+      ],
+      "answer": 2
+    },
+    {
+      "id": "l2-skirt",
+      "domain": "listening",
+      "level": 2,
+      "kind": "listen-choice",
+      "ketRef": "KET for Schools Sample Test 1, Listening Part 1, Q3",
+      "prompt": "How much is the skirt?",
+      "say": "How much is this skirt, please? It was twenty pounds, but this week everything is half price, so it's ten pounds.",
+      "audio": null,
+      "options": ["£10", "£15", "£20"],
+      "answer": 0
+    },
+    {
+      "id": "l2-present",
+      "domain": "listening",
+      "level": 2,
+      "kind": "listen-picture",
+      "ketRef": "KET for Schools Sample Test 1, Listening Part 2 (present matching)",
+      "prompt": "What did Nick's cousin give him?",
+      "say": "Hi Nick, what's that you're reading? It's a book my cousin got me for my birthday. It's really interesting.",
+      "audio": null,
+      "options": [
+        { "icon": "phone", "label": "phone" },
+        { "icon": "book", "label": "book" },
+        { "icon": "bike", "label": "bicycle" }
+      ],
+      "answer": 1
+    },
+    {
+      "id": "l2-trip",
+      "domain": "listening",
+      "level": 2,
+      "kind": "listen-choice",
+      "ketRef": "KET for Schools Sample Test 1, Listening Part 1, Q1",
+      "prompt": "How many children went on the school trip?",
+      "say": "Were there thirty children on the school trip? No, two were ill, so only twenty-eight came.",
+      "audio": null,
+      "options": ["28", "30", "32"],
+      "answer": 0
+    },
+    {
+      "id": "l2-shop",
+      "domain": "listening",
+      "level": 2,
+      "kind": "listen-picture",
+      "ketRef": "KET Listening Part 1 format",
+      "prompt": "Where is the boy going?",
+      "say": "I can't play now — I'm going to the shop to buy some bread for my mum.",
+      "audio": null,
+      "options": [
+        { "icon": "school", "label": "school" },
+        { "icon": "house", "label": "house" },
+        { "icon": "shop", "label": "shop" }
+      ],
+      "answer": 2
+    },
+
+    {
+      "id": "l3-film",
+      "domain": "listening",
+      "level": 3,
+      "kind": "listen-choice",
+      "ketRef": "KET for Schools Sample Test 1, Listening Part 3, Q11",
+      "prompt": "Which film will they see?",
+      "say": "Susie: Hi Matt. Would you like to come to the cinema with me and Jane on Saturday? We asked Sam and Pete too, but they're both busy. Matt: What are you going to see, Susie? Susie: Field of Green. It's got Johnny Delaicey in it. Matt: Oh yes, I know. He was in Sunny Day and Heart of Gold.",
+      "audio": null,
+      "options": ["Sunny Day", "Field of Green", "Heart of Gold"],
+      "answer": 1
+    },
+    {
+      "id": "l3-cinema",
+      "domain": "listening",
+      "level": 3,
+      "kind": "listen-choice",
+      "ketRef": "KET for Schools Sample Test 1, Listening Part 3, Q12",
+      "prompt": "Which cinema are they going to?",
+      "say": "Matt: Is it on at the cinema in the shopping centre? Susie: That one's closed. We're going to the one opposite the park. It's not on at the one by the market.",
+      "audio": null,
+      "options": ["the one by the market", "the one in the shopping centre", "the one opposite the park"],
+      "answer": 2
+    },
+    {
+      "id": "l3-getthere",
+      "domain": "listening",
+      "level": 3,
+      "kind": "listen-choice",
+      "ketRef": "KET for Schools Sample Test 1, Listening Part 3, Q13",
+      "prompt": "How will they get there?",
+      "say": "Matt: And how are you getting there? Susie: My mum can't drive us, so we're going to walk.",
+      "audio": null,
+      "options": ["by car", "on foot", "by bus"],
+      "answer": 1
+    },
+    {
+      "id": "l3-guitar-day",
+      "domain": "listening",
+      "level": 3,
+      "kind": "listen-choice",
+      "ketRef": "KET for Schools Sample Test 1, Listening Part 4 (note completion)",
+      "prompt": "Which day are the guitar lessons?",
+      "say": "Milly: When are the guitar lessons? Friend: They're every Saturday, from ten in the morning until twelve.",
+      "audio": null,
+      "options": ["Friday", "Saturday", "Sunday"],
+      "answer": 1
+    },
+    {
+      "id": "l3-guitar-price",
+      "domain": "listening",
+      "level": 3,
+      "kind": "listen-choice",
+      "ketRef": "KET for Schools Sample Test 1, Listening Part 4 (note completion)",
+      "prompt": "How much is one hour of guitar lessons?",
+      "say": "Milly: And how much does it cost? Friend: It's twelve pounds an hour — but the very first lesson is free.",
+      "audio": null,
+      "options": ["£10", "£12", "£20"],
+      "answer": 1
+    }
+  ]
+}

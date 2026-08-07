@@ -1,0 +1,67 @@
+{
+  "//": [
+    "Realtime Database rules for the Star quest.",
+    "",
+    "Security model, stated plainly so you can judge it:",
+    "  - Anonymous auth is required, so an unauthenticated client on the open",
+    "    internet cannot read or write anything.",
+    "  - Beyond that, the 8-character session code IS the secret. Anyone signed",
+    "    in who knows a live code could read that session. The code space is",
+    "    36^8 (~2.8 trillion) and a session is one child's practice test, so",
+    "    this is a deliberate, proportionate trade-off, not an oversight.",
+    "  - Nothing here is indexed or listed: 'sessions' itself is unreadable, so",
+    "    codes cannot be enumerated. Only an exact code path resolves.",
+    "",
+    "If you later want this stricter, the upgrade is: sign the teacher in with",
+    "email/password, have teacher.html write ownerUid on session creation, and",
+    "require newData/data.child('ownerUid').val() === auth.uid for writes."
+  ],
+
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "sessions": {
+      "$code": {
+        ".read": "auth != null && $code.length == 8",
+        ".write": "auth != null && $code.length == 8",
+
+        "student": {
+          "name": { ".validate": "newData.isString() && newData.val().length <= 24" },
+          "startedAt": { ".validate": "newData.isNumber()" },
+          "$other": { ".validate": "newData.isString() && newData.val().length <= 200" }
+        },
+
+        "presence": { ".validate": "newData.isBoolean()" },
+
+        "state": {
+          "$field": { ".validate": "newData.isString() || newData.isNumber() || newData.isBoolean()" }
+        },
+
+        "current": {
+          "prompt":  { ".validate": "newData.isString() && newData.val().length <= 600" },
+          "passage": { ".validate": "newData.isString() && newData.val().length <= 1200" },
+          "options": {
+            "$i": { ".validate": "newData.isString() && newData.val().length <= 300" }
+          },
+          "$other": { ".validate": "newData.isString() || newData.isNumber() || newData.isBoolean()" }
+        },
+
+        "events": {
+          "$eventId": {
+            ".validate": "newData.hasChildren(['correct'])",
+            "prompt": { ".validate": "newData.isString() && newData.val().length <= 600" },
+            "said":   { ".validate": "newData.isString() && newData.val().length <= 300" },
+            "$other": { ".validate": "newData.isString() || newData.isNumber() || newData.isBoolean()" }
+          }
+        },
+
+        "report": {
+          ".validate": "newData.hasChildren(['percent'])"
+        },
+
+        "$junk": { ".validate": false }
+      }
+    }
+  }
+}

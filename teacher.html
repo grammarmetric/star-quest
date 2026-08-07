@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" data-accent="cyan">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Star quest — live monitor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="t-shell">
+
+  <div class="t-head">
+    <h1>Live monitor</h1>
+    <span class="chip chip--quiet" id="statusChip">starting up</span>
+    <span class="topbar-spacer" style="flex:1"></span>
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark"></button>
+  </div>
+
+  <!-- join -->
+  <section class="t-panel" id="joinPanel" style="margin-bottom:16px">
+    <h2>Session</h2>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <input class="name-input" id="codeInput" type="text" placeholder="8-letter code"
+             maxlength="8" autocomplete="off" spellcheck="false"
+             style="text-transform:uppercase;letter-spacing:.16em;width:230px">
+      <button class="btn btn--accent" id="joinBtn" type="button">Watch</button>
+      <button class="btn btn--quiet" id="newBtn" type="button">Make a new code</button>
+    </div>
+    <p style="color:var(--muted);font-size:.9rem;margin-top:14px" id="joinHint">
+      Make a code, then send Lily the student link that appears below.
+    </p>
+    <div id="linkBox" style="display:none;margin-top:14px">
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <span class="code-box" id="codeBox"></span>
+        <button class="btn btn--outline" id="copyBtn" type="button">Copy student link</button>
+      </div>
+      <p style="color:var(--muted);font-size:.85rem;margin-top:10px;word-break:break-all" id="studentLink"></p>
+    </div>
+  </section>
+
+  <!-- watching -->
+  <div id="watchArea" style="display:none">
+
+    <div class="t-stat-row" style="margin-bottom:16px">
+      <div class="t-stat"><div class="v" id="sName">—</div><div class="k">student</div></div>
+      <div class="t-stat"><div class="v" id="sStage">—</div><div class="k">stage</div></div>
+      <div class="t-stat"><div class="v" id="sProgress">—</div><div class="k">question</div></div>
+      <div class="t-stat"><div class="v" id="sScore">—</div><div class="k">correct so far</div></div>
+      <div class="t-stat"><div class="v" id="sLevel">—</div><div class="k">current level</div></div>
+      <div class="t-stat"><div class="v" id="sTime">—</div><div class="k">elapsed</div></div>
+    </div>
+
+    <div class="t-grid">
+      <div class="t-panel">
+        <h2>On her screen right now</h2>
+        <div id="liveNow"><div class="t-empty">Waiting for her to start…</div></div>
+      </div>
+
+      <div class="t-panel">
+        <h2>Answers as they happen</h2>
+        <div class="t-feed" id="feed"><div class="t-empty">No answers yet.</div></div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="reportPanel" style="display:none;margin-top:16px">
+      <h2>Final report</h2>
+      <div id="reportBox"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script defer src="firebase-config.js"></script>
+<script defer src="sync.js"></script>
+<script defer src="icons.js"></script>
+<script defer src="teacher.js"></script>
+</body>
+</html>
