@@ -1,22 +1,20 @@
-{
-  "//": [
-    "Realtime Database rules for the Star quest.",
-    "",
-    "Security model, stated plainly so you can judge it:",
-    "  - Anonymous auth is required, so an unauthenticated client on the open",
-    "    internet cannot read or write anything.",
-    "  - Beyond that, the 8-character session code IS the secret. Anyone signed",
-    "    in who knows a live code could read that session. The code space is",
-    "    36^8 (~2.8 trillion) and a session is one child's practice test, so",
-    "    this is a deliberate, proportionate trade-off, not an oversight.",
-    "  - Nothing here is indexed or listed: 'sessions' itself is unreadable, so",
-    "    codes cannot be enumerated. Only an exact code path resolves.",
-    "",
-    "If you later want this stricter, the upgrade is: sign the teacher in with",
-    "email/password, have teacher.html write ownerUid on session creation, and",
-    "require newData/data.child('ownerUid').val() === auth.uid for writes."
-  ],
+// Realtime Database rules for the Star quest.
+//
+// Security model, stated plainly so you can judge it:
+//   - Anonymous auth is required, so an unauthenticated client on the open
+//     internet cannot read or write anything.
+//   - Beyond that, the 8-character session code IS the secret. Anyone signed
+//     in who knows a live code could read that session. The code space is
+//     36^8 (~2.8 trillion) and a session is one child's practice test, so
+//     this is a deliberate, proportionate trade-off, not an oversight.
+//   - Nothing here is listable: "sessions" itself is unreadable, so codes
+//     cannot be enumerated. Only an exact code path resolves.
+//
+// If you later want this stricter, the upgrade is: sign the teacher in with
+// email/password, have teacher.html write ownerUid on session creation, and
+// require data.child('ownerUid').val() === auth.uid for writes.
 
+{
   "rules": {
     ".read": false,
     ".write": false,

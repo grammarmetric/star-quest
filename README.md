@@ -81,8 +81,40 @@ Live in about a minute at
 
 ## 4. Live teacher monitoring (Firebase Realtime Database)
 
-You asked for a **new standalone Firebase project**, separate from
-`grammarmetric-classroom`. Five steps:
+A new standalone Firebase project, separate from `grammarmetric-classroom`.
+
+### The scripted way (recommended)
+
+Google requires one interactive browser login that nothing can automate. Do
+that, then the script does the other six steps:
+
+```powershell
+firebase login                       # opens a browser, sign in as admin@grammarmetric.com
+cd C:\Users\User\lily-quest
+.\tools\setup-firebase.ps1
+```
+
+It creates the project, creates the Realtime Database, enables Anonymous
+sign-in, registers a web app, writes the real values into `firebase-config.js`,
+adds your Pages domain to the authorized list, and deploys
+`database.rules.json`. Each step prints OK or FAILED — and any step that fails
+prints the exact console click-path, so a partial run is still useful. Re-run it
+with `-ProjectId <id>` to pick up where it left off.
+
+Then commit the generated config:
+
+```powershell
+git add firebase-config.js && git commit -m "Add Firebase config" && git push
+```
+
+> The API key in that file is **not a secret**. A Firebase web API key
+> identifies the project; it authorises nothing. Access is controlled by
+> `database.rules.json` and the authorized-domain list. Firebase ships these in
+> client-side JavaScript by design.
+
+### The manual way
+
+If you would rather click through it, five steps:
 
 **1. Create the project.**
 [console.firebase.google.com](https://console.firebase.google.com) → Add
